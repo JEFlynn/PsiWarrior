@@ -103,22 +103,45 @@ namespace PsiWarrior
                "Subclass/&ArchetypePsiWarriorDescription",
                "Subclass/&ArchetypePsiWarriorTitle");
             psiGUI.SetSpriteReference(DatabaseHelper.CharacterSubclassDefinitions.RoguishShadowCaster.GuiPresentation.SpriteReference);
+
+            
             psiWarrior.SetGuiPresentation(psiGUI.Build());
             //FeatureDefinitionAdditionalDamage test =;
 
             GuiPresentationBuilder psionicDiceGui = new GuiPresentationBuilder("Subclass/&PsionicDiceDescription", "Subclass/&PsionicDiceTitle");
+            psionicDiceGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
 
             FeatureDefinitionAttributeModifier PsionicDice = BuildAttributeMod(FeatureDefinitionAttributeModifier.AttributeModifierOperation.Set, AttributeDefinitions.ChannelDivinityNumber, 3, "AttributeModifierPsionicChannelDivinity", psionicDiceGui.Build());
             GuiPresentationBuilder psionicStrikeGui = new GuiPresentationBuilder("Spend a psionic dice to deal extra damage.", "Psionic Strike");
-            FeatureDefinitionPower psionicStrike = BuildFeaturePower("FeaturePowerPsionicStrike", RuleDefinitions.ActivationTime.OnAttackHit, RuleDefinitions.RechargeRate.ChannelDivinity, 1, BuildPsiStrikeEffect(), psionicStrikeGui.Build());
+            
+            FeatureDefinitionPower psionicStrike = BuildFeaturePower("FeaturePowerPsionicStrike", RuleDefinitions.ActivationTime.OnAttackHit, RuleDefinitions.RechargeRate.ChannelDivinity, 1, PsiStrikeBuilder(), psionicStrikeGui.Build());
+            psionicStrikeGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
+
+
             psiWarrior.AddFeatureAtLevel(PsionicDice, 3);
             psiWarrior.AddFeatureAtLevel(psionicStrike, 3);
             DatabaseHelper.FeatureDefinitionSubclassChoices.SubclassChoiceFighterMartialArchetypes.Subclasses.Add(psiWarrior.AddToDB().Name);
-            
+
+
+            //EffectDescriptionBuilder;
         }
 
         // Below here are helpers that make creating specific Features easier. They also add the features to the database so
         // that the game can reference them.
+
+        public static EffectDescription PsiStrikeBuilder()
+        {
+            EffectDescriptionBuilder effectBuild = new EffectDescriptionBuilder();
+
+            effectBuild.SetTargetingData(RuleDefinitions.Side.Enemy, RuleDefinitions.RangeType.MeleeHit, 0, RuleDefinitions.TargetType.Individuals, 1, 0, ActionDefinitions.ItemSelectionType.None);
+            effectBuild.SetDurationData(RuleDefinitions.DurationType.Instantaneous, 0, RuleDefinitions.TurnOccurenceType.EndOfTurn);
+
+            SolastaModApi.BuilderHelpers.EffectFormBuilder damageFormBuilder = new SolastaModApi.BuilderHelpers.EffectFormBuilder();
+            damageFormBuilder.SetDamageForm(false, RuleDefinitions.DieType.D1, RuleDefinitions.DamageTypeFire, 0, RuleDefinitions.DieType.D6, 1, RuleDefinitions.HealFromInflictedDamage.Never, new List<RuleDefinitions.TrendInfo> { });
+
+            return effectBuild.Build();
+
+        }
 
         public static EffectDescription BuildPsiStrikeEffect()
         {
