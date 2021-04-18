@@ -130,6 +130,13 @@ namespace PsiWarrior
             psiDamage.DiceNumber = 1;
             psiDamage.DieType = RuleDefinitions.DieType.D6;
 
+            EffectAdvancement effectAdvancement = new EffectAdvancement();
+            Traverse.Create(effectAdvancement).Field("incrementMultiplier").SetValue(1);
+            Traverse.Create(effect).Field("effectAdvancement").SetValue(effectAdvancement);
+
+            EffectParticleParameters particleParams = new EffectParticleParameters(DatabaseHelper.SpellDefinitions.MagicWeapon.EffectDescription.EffectParticleParameters);
+            Traverse.Create(effect).Field("effectParticleParameters").SetValue(particleParams);
+
             Traverse.Create(effectForm).Field("damageForm").SetValue(psiDamage);
             Traverse.Create(effectForm).Field("rangeType").SetValue(RuleDefinitions.RangeType.MeleeHit);
             Traverse.Create(effectForm).Field("durationType").SetValue(RuleDefinitions.DurationType.Instantaneous);
