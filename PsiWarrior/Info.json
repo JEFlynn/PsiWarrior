@@ -1,8 +1,8 @@
 {
 	"Id": "PsiWarrior",
 	"DisplayName": "PsiWarrior",
-	"Author": "Zappastuff",
-	"Version": "0.0.2",
+	"Author": "JEFlynn",
+	"Version": "0.0.1",
 	"ManagerVersion": "0.23.3",
 	"AssemblyName": "PsiWarrior.dll",
 	"EntryMethod": "PsiWarrior.Main.Load"
