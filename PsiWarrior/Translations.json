@@ -1,0 +1,49 @@
+{
+  "SomeCategory/&SomeTerm": {
+    "English": "Mickey-Mouse was here"
+  },
+  "OtherCategory/&OtherTerm": {
+    "English": "The book is on the table",
+    "Portuguese": "O livro esta sobre a mesa"
+  },
+  "Subclass/&TraditionMasterManipulatorDescription": {
+    "English": "Master Manipulators excel at controlling the battlefield and preventing their enemies from being able to attack them."
+  },
+  "Subclass/&TraditionMasterManipulatorTitle": {
+    "English": "Master Manipulator"
+  },
+  "Subclass/&MagicAffinityMasterManipulatorListDescription": {
+    "English": "When casting some Enchantment, Abjuration, and Illusion spells they are cast at a spell slot 1 level higher than the one used. Improved spells include: Charm Person, Sleep, Color Spray, Hold Person, Invisibility, Counterspell, Dispel Magic, Banishment, Confusion, and Phantasmal Killer."
+  },
+  "Subclass/&MagicAffinityMasterManipulatorListTitle": {
+    "English": "Arcane Manipulation"
+  },
+  "Subclass/&MagicAffinityMasterManipulatorDCDescription": {
+    "English": "It is harder for opponents to resist your spells. The save DC increases by 3."
+  },
+  "Subclass/&MagicAffinityMasterManipulatorDCTitl": {
+    "English": "Arcane Force"
+  },
+  "Subclass/&PsionicDiceDescription": {
+    "English": "You harbor a wellspring of psionic energy within yourself. This energy is represented by your Psionic Energy dice, which are each a d6. You have a number of these dice equal to twice your proficiency bonus, and they fuel various psionic powers you have."
+  },
+  "Subclass/&PsionicDiceTitle": {
+    "English": "Psionic Power"
+  },
+  "Subclass/&ArchetypePsiWarriorDescription": {
+    "English": "Awake to the psionic power within, a Psi Warrior is a fighter who augments their physical might with psi-infused weapon strikes, telekinetic lashes, and barriers of mental force."
+  },
+  "Subclass/&ArchetypePsiWarriorTitle": {
+    "English": "Psi Warrior"
+  },
+  "Subclass/&PsionicStrikeDescription": {
+    "English": "Spend a psionic dice to deal extra damage."
+  },
+  "Subclass/&PsionicStrikeTitle": {
+    "English": "Psionic Strike"
+  }
+}
+
+
+ 
+
