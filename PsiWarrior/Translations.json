@@ -36,10 +36,16 @@
   "Subclass/&ArchetypePsiWarriorTitle": {
     "English": "Psi Warrior"
   },
-  "Subclass/&PsionicStrikeDescription": {
+  "Reaction/&SpendPowerFeaturePowerPsionicStrikeDescription": {
     "English": "Spend a psionic dice to deal extra damage."
   },
-  "Subclass/&PsionicStrikeTitle": {
+  "Reaction/&SpendPowerFeaturePowerPsionicStrikeReactDescription": {
+    "English": "Spend a psionic dice to deal extra damage."
+  },
+  "Reaction/&SpendPowerFeaturePowerPsionicStrikeTitle": {
+    "English": "Psionic Strike"
+  },
+  "Reaction/&SpendPowerFeaturePowerPsionicStrikeReactTitle": {
     "English": "Psionic Strike"
   }
 }

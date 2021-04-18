@@ -109,17 +109,32 @@ namespace PsiWarrior
             //FeatureDefinitionAdditionalDamage test =;
 
             GuiPresentationBuilder psionicDiceGui = new GuiPresentationBuilder("Subclass/&PsionicDiceDescription", "Subclass/&PsionicDiceTitle");
+
+            //trying to see what things might be causing the object reference issues
             psionicDiceGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
 
-            FeatureDefinitionAttributeModifier PsionicDice = BuildAttributeMod(FeatureDefinitionAttributeModifier.AttributeModifierOperation.Set, AttributeDefinitions.ChannelDivinityNumber, 3, "AttributeModifierPsionicChannelDivinity", psionicDiceGui.Build());
+            FeatureDefinitionAttributeModifier PsionicDice = BuildAttributeMod(FeatureDefinitionAttributeModifier.AttributeModifierOperation.Set, AttributeDefinitions.ChannelDivinityNumber, 4, "AttributeModifierPsionicChannelDivinity", psionicDiceGui.Build());
             GuiPresentationBuilder psionicStrikeGui = new GuiPresentationBuilder("Spend a psionic dice to deal extra damage.", "Psionic Strike");
-            
-            FeatureDefinitionPower psionicStrike = BuildFeaturePower("FeaturePowerPsionicStrike", RuleDefinitions.ActivationTime.OnAttackHit, RuleDefinitions.RechargeRate.ChannelDivinity, 1, PsiStrikeBuilder(), psionicStrikeGui.Build());
-            psionicStrikeGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
 
+            //FeatureDefinitionPower psionicStrike = BuildFeaturePower("FeaturePowerPsionicStrike", RuleDefinitions.ActivationTime.OnAttackHit, RuleDefinitions.RechargeRate.ChannelDivinity, 1, PsiStrikeBuilder(), psionicStrikeGui.Build());
+            FeatureDefinitionPower psionicStrike = BuildPower2(4, RuleDefinitions.UsesDetermination.Fixed, AttributeDefinitions.Wisdom, RuleDefinitions.ActivationTime.OnAttackHit, 1, RuleDefinitions.RechargeRate.ChannelDivinity, RuleDefinitions.RangeType.MeleeHit, RuleDefinitions.TargetType.Individuals, ActionDefinitions.ItemSelectionType.None, RuleDefinitions.DurationType.Instantaneous, 1, RuleDefinitions.TurnOccurenceType.EndOfTurn, AttributeDefinitions.Wisdom, AttributeDefinitions.Intelligence, 15, new List<SaveAffinityBySenseDescription>() { }, new ConditionDefinition(), new ConditionDefinition(), "FeaturePowerPsionicStrike", psionicStrikeGui.Build(), PsiStrikeBuilder());
+
+            //trying to see what things might be causing the object reference issues
+            psionicStrikeGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
+            
 
             psiWarrior.AddFeatureAtLevel(PsionicDice, 3);
             psiWarrior.AddFeatureAtLevel(psionicStrike, 3);
+
+
+            GuiPresentationBuilder psionicDiceAddGui = new GuiPresentationBuilder("Gain another 2 psionic dice", "Additional Psionic Power");
+            
+            psionicDiceAddGui.SetSpriteReference(DatabaseHelper.FeatureDefinitionPowers.PowerDomainBattleDecisiveStrike.GuiPresentation.SpriteReference);
+            
+            FeatureDefinitionAttributeModifier psionicDiceIncreaseUses = BuildAttributeMod(FeatureDefinitionAttributeModifier.AttributeModifierOperation.Additive, AttributeDefinitions.ChannelDivinityNumber, 2, "AttributeModifierPsionicChannelDivinityAdd",psionicDiceAddGui.Build());
+            psiWarrior.AddFeatureAtLevel(psionicDiceIncreaseUses, 5);
+
+            psiWarrior.AddFeatureAtLevel(psionicDiceIncreaseUses, 9);
             DatabaseHelper.FeatureDefinitionSubclassChoices.SubclassChoiceFighterMartialArchetypes.Subclasses.Add(psiWarrior.AddToDB().Name);
 
 
@@ -137,38 +152,41 @@ namespace PsiWarrior
             effectBuild.SetDurationData(RuleDefinitions.DurationType.Instantaneous, 0, RuleDefinitions.TurnOccurenceType.EndOfTurn);
 
             SolastaModApi.BuilderHelpers.EffectFormBuilder damageFormBuilder = new SolastaModApi.BuilderHelpers.EffectFormBuilder();
-            damageFormBuilder.SetDamageForm(false, RuleDefinitions.DieType.D1, RuleDefinitions.DamageTypeFire, 0, RuleDefinitions.DieType.D6, 1, RuleDefinitions.HealFromInflictedDamage.Never, new List<RuleDefinitions.TrendInfo> { });
-
+            damageFormBuilder.SetDamageForm(false, RuleDefinitions.DieType.D1, RuleDefinitions.DamageTypeForce, 0, RuleDefinitions.DieType.D6, 1, RuleDefinitions.HealFromInflictedDamage.Never, new List<RuleDefinitions.TrendInfo> { });
+            effectBuild.AddEffectForm(damageFormBuilder.Build());
+            
             return effectBuild.Build();
 
         }
 
-        public static EffectDescription BuildPsiStrikeEffect()
-        {
-            EffectDescription effect = new EffectDescription();
-            EffectForm effectForm = new EffectForm();
-            effectForm.FormType = EffectForm.EffectFormType.Damage;
+        #region OldEffectBuilder
+        //public static EffectDescription BuildPsiStrikeEffect()
+        //{
+        //    EffectDescription effect = new EffectDescription();
+        //    EffectForm effectForm = new EffectForm();
+        //    effectForm.FormType = EffectForm.EffectFormType.Damage;
 
-            DamageForm psiDamage = new DamageForm();
-            psiDamage.DiceNumber = 1;
-            psiDamage.DieType = RuleDefinitions.DieType.D6;
+        //    DamageForm psiDamage = new DamageForm();
+        //    psiDamage.DiceNumber = 1;
+        //    psiDamage.DieType = RuleDefinitions.DieType.D6;
 
-            EffectAdvancement effectAdvancement = new EffectAdvancement();
-            Traverse.Create(effectAdvancement).Field("incrementMultiplier").SetValue(1);
-            Traverse.Create(effect).Field("effectAdvancement").SetValue(effectAdvancement);
+        //    EffectAdvancement effectAdvancement = new EffectAdvancement();
+        //    Traverse.Create(effectAdvancement).Field("incrementMultiplier").SetValue(1);
+        //    Traverse.Create(effect).Field("effectAdvancement").SetValue(effectAdvancement);
 
-            EffectParticleParameters particleParams = new EffectParticleParameters(DatabaseHelper.SpellDefinitions.MagicWeapon.EffectDescription.EffectParticleParameters);
-            Traverse.Create(effect).Field("effectParticleParameters").SetValue(particleParams);
+        //    EffectParticleParameters particleParams = new EffectParticleParameters(DatabaseHelper.SpellDefinitions.MagicWeapon.EffectDescription.EffectParticleParameters);
+        //    Traverse.Create(effect).Field("effectParticleParameters").SetValue(particleParams);
 
-            Traverse.Create(effectForm).Field("damageForm").SetValue(psiDamage);
-            Traverse.Create(effectForm).Field("rangeType").SetValue(RuleDefinitions.RangeType.MeleeHit);
-            Traverse.Create(effectForm).Field("durationType").SetValue(RuleDefinitions.DurationType.Instantaneous);
-            effect.EffectForms.Add(effectForm);
+        //    Traverse.Create(effectForm).Field("damageForm").SetValue(psiDamage);
+        //    Traverse.Create(effectForm).Field("rangeType").SetValue(RuleDefinitions.RangeType.MeleeHit);
+        //    Traverse.Create(effectForm).Field("durationType").SetValue(RuleDefinitions.DurationType.Instantaneous);
+        //    effect.EffectForms.Add(effectForm);
 
 
-            return effect;
+        //    return effect;
 
-        }
+        //}
+        #endregion
 
         public static FeatureDefinitionPower BuildFeaturePower(string name, RuleDefinitions.ActivationTime activation, RuleDefinitions.RechargeRate recharge, int cost, EffectDescription effect, GuiPresentation guiPresentation)
         {
@@ -189,9 +207,36 @@ namespace PsiWarrior
 
             Traverse.Create(featurePower).Field("guiPresentation").SetValue(guiPresentation);
             Traverse.Create(featurePower).Field("guid").SetValue(GuidHelper.Create(Main.ModGuidNamespace, name).ToString());
-            DatabaseRepository.GetDatabase<FeatureDefinitionPower>().Add(featurePower);
+            //DatabaseRepository.GetDatabase<FeatureDefinitionPower>().Add(featurePower);
+            DatabaseRepository.GetDatabase<FeatureDefinition>().Add(featurePower);
 
             return featurePower;
+        }
+
+        public static FeatureDefinitionPower BuildPower2(int usesPerRecharge, RuleDefinitions.UsesDetermination usesDetermination, string usesAbilityScoreName,
+            RuleDefinitions.ActivationTime activationTime, int costPerUse, RuleDefinitions.RechargeRate recharge, RuleDefinitions.RangeType rangeType,
+            RuleDefinitions.TargetType targetType, ActionDefinitions.ItemSelectionType itemSelectionType, RuleDefinitions.DurationType durationtype, int durationparameter,
+            RuleDefinitions.TurnOccurenceType endOfEffect, string savethrowtype, string savethrowDA, int savethrowDC,
+            List<SaveAffinityBySenseDescription> saveAffinityBySenseDescriptions, ConditionDefinition condition1, ConditionDefinition condition2, string name, GuiPresentation guiPresentation, EffectDescription effect)
+        {
+            FeatureDefinitionPower power = ScriptableObject.CreateInstance<FeatureDefinitionPower>();
+            Traverse.Create(power).Field("fixedUsesPerRecharge").SetValue(usesPerRecharge);
+            Traverse.Create(power).Field("usesDetermination").SetValue(usesDetermination);
+            Traverse.Create(power).Field("activationTime").SetValue(activationTime);
+            Traverse.Create(power).Field("costPerUse").SetValue(costPerUse);
+            Traverse.Create(power).Field("rechargeRate").SetValue(recharge);
+            Traverse.Create(power).Field("usesAbilityScoreName").SetValue(usesAbilityScoreName);
+            Traverse.Create(power).Field("uniqueInstance").SetValue(true);
+            Traverse.Create(power).Field("effectDescription").SetValue(effect);
+
+
+
+            Traverse.Create(power).Field("name").SetValue(name);
+            power.name = name;
+            Traverse.Create(power).Field("guiPresentation").SetValue(guiPresentation);
+            Traverse.Create(power).Field("guid").SetValue(GuidHelper.Create(Main.ModGuidNamespace, name).ToString());
+            DatabaseRepository.GetDatabase<FeatureDefinition>().Add(power);
+            return power;
         }
 
         public static FeatureDefinitionAttributeModifier BuildAttributeMod(FeatureDefinitionAttributeModifier.AttributeModifierOperation modifierType, string attribute, int amount, string name, GuiPresentation guiPresentation)
@@ -207,8 +252,8 @@ namespace PsiWarrior
 
             Traverse.Create(attributeMod).Field("guiPresentation").SetValue(guiPresentation);
             Traverse.Create(attributeMod).Field("guid").SetValue(GuidHelper.Create(Main.ModGuidNamespace, name).ToString());
-            DatabaseRepository.GetDatabase<FeatureDefinitionAttributeModifier>().Add(attributeMod);
-
+            //DatabaseRepository.GetDatabase<FeatureDefinitionAttributeModifier>().Add(attributeMod);
+            DatabaseRepository.GetDatabase<FeatureDefinition>().Add(attributeMod);
             return attributeMod;
 
         }
