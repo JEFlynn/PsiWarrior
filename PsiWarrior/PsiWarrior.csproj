@@ -5,8 +5,8 @@
 		<AssemblyVersion>0.0.2.0</AssemblyVersion>
 		<FileVersion>0.0.2.0</FileVersion>
 		<Description></Description>
-		<PackageProjectUrl>https://github.com/SolastaMods/PsiWarrior</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/SolastaMods/PsiWarrior</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/JEFlynn/PsiWarrior</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/JEFlynn/PsiWarrior</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<Configurations>Debug;Release;Debug Install;Release Install</Configurations>
 		<Authors>Zappastuff</Authors>
@@ -45,9 +45,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="Unity.Addressables">
-		  <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Slasta_COTM\Solasta_Data\Managed\Unity.Addressables.dll</HintPath>
-		</Reference>
 		<Reference Include="UnityEngine.InputLegacyModule">
 			<HintPath>$([System.IO.Path]::Combine($(SolastaInstallDir), 'Solasta_Data\Managed\UnityEngine.dll'))</HintPath>
 			<Private>false</Private>
@@ -55,6 +52,9 @@
 		<Reference Include="UnityEngine.CoreModule">
 			<HintPath>$([System.IO.Path]::Combine($(SolastaInstallDir), 'Solasta_Data\Managed\UnityEngine.CoreModule.dll'))</HintPath>
 			<Private>false</Private>
+		</Reference>
+		<Reference Include="Unity.Addressables">
+			<HintPath>$([System.IO.Path]::Combine($(SolastaInstallDir), 'Solasta_Data\Managed\Unity.Addressables.dll'))</HintPath>
 		</Reference>
 		<Reference Include="UnityModManager">
 			<HintPath>$([System.IO.Path]::Combine($(SolastaInstallDir), 'Solasta_Data\Managed\UnityModManager\UnityModManager.dll'))</HintPath>
