@@ -16,7 +16,11 @@ namespace PsiWarrior
     {
 
         public static Guid ModGuidNamespace = new Guid("62565155-4d2e-4d72-a651-f8b0749f22a0");
-
+        // This is showing one way to create guids for a database entry. Once a guid is released it should stay consistent.
+        // One way to maintain this consistincy is to manually set each individual guid. This is showing a second option where
+        // you generate a guid for the mod, and then use the GuidHelper to generate the guid for the database entry using the
+        // mod guid and the string name of the item. The process is deterministic given the same inputs, so once you've
+        // released with a generated guid you should not change the inputs to the GuidHelper.
         [Conditional("DEBUG")]
         internal static void Log(string msg) => Logger.Log(msg);
 
